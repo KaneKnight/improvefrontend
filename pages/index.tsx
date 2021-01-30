@@ -22,8 +22,8 @@ const displayArticles = ( articles : Article[] ) => {
     );
 };
 
-const Home = ( { articles } : HomeProps ) => (
-    <div>
+const Home = ( { articles } : HomeProps ) => {
+    {/*<div>
         <Navbar page="home" />
         <Segment attached="bottom" textAlign="center" color='blue'>
             <Header as="h3"> Most Popular Articles </Header>
@@ -33,12 +33,13 @@ const Home = ( { articles } : HomeProps ) => (
                 { displayArticles( articles ) }
             </Grid>
         </Segment>
-    </div>
-);
+    </div>*/}
+    return "Hello";
+};
 
 export default Home;
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+/*export const getServerSideProps: GetServerSideProps = async (context) => {
     const url : string = process.env.API + "/articles/popular";
     const articles : Article[] = await fetch(url)
     .then(( res ) => res.json())
@@ -47,4 +48,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
         props: { articles }, // will be passed to the page component as props
     };
-}
+}*/

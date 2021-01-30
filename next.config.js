@@ -12,7 +12,7 @@ module.exports = (phase, { defaultConfig }) => {
   return {
     /* config options for all phases except development here */
     env: {
-      API: 'https://improveatinvesting.com',
+      API: 'https://api.improveatinvesting.com',
     }
   }
 }
