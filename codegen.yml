@@ -1,0 +1,10 @@
+schema: './backend/schema.graphql'
+documents: './backend/schema.graphql'
+overwrite: true
+generates:
+  ./hooks/graphql/index.ts:
+    - typescript
+    - typescript-operations
+    - typescript-react-query
+config:
+      fetcher: fetch
