@@ -1,10 +1,12 @@
-schema: './backend/schema.graphql'
-documents: './backend/schema.graphql'
 overwrite: true
+schema: "https://api.improveatinvesting.com/graphql"
+documents: "graphql/**/*.graphql"
 generates:
-  ./hooks/graphql/index.ts:
-    - typescript
-    - typescript-operations
-    - typescript-react-query
-config:
-      fetcher: fetch
+  generated/graphql.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-query"
+    config:
+      fetcher:
+        endpoint: 'https://api.improveatinvesting.com/graphql'

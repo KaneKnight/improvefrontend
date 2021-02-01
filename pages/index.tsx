@@ -1,16 +1,15 @@
 import React from "react";
+import { request } from "graphql-request";
 import { Navbar } from "../components/Navbar/Navbar"
 import { ArticleCard } from "../components/ArticleCard/ArticleCard";
 import { Grid, Segment, Header } from "semantic-ui-react";
 import { GetServerSideProps } from 'next'
-import { Article } from "../types/types"
+//import { Article } from "../types/types"
 import 'semantic-ui-css/semantic.min.css'
+import { Article, ArticlesDocument, ArticlesQuery } from '../generated/graphql';
 
-interface HomeProps {
-    articles : Article[]
-}
 
-const displayArticles = ( articles : Article[] ) => {
+/*const displayArticles = ( articles : Article[] ) => {
     return articles.map(
         (article) => {
             return (
@@ -20,9 +19,9 @@ const displayArticles = ( articles : Article[] ) => {
             );
         }
     );
-};
+};*/
 
-const Home = ( { articles } : HomeProps ) => {
+const Home = ( { articles } : ArticlesQuery ) => {
     {/*<div>
         <Navbar page="home" />
         <Segment attached="bottom" textAlign="center" color='blue'>
@@ -34,18 +33,27 @@ const Home = ( { articles } : HomeProps ) => {
             </Grid>
         </Segment>
     </div>*/}
-    return "Hello";
+    
+    return (
+        <Something articles={articles} />
+    )
 };
+
+const Something = ( { articles } : ArticlesQuery ) => {
+    return (
+        <React.Fragment>
+            {articles!.map( a => {
+                return <p key={a?.id}> {a?.title} </p>;
+            })}
+        </React.Fragment>
+    );
+}
 
 export default Home;
 
-/*export const getServerSideProps: GetServerSideProps = async (context) => {
-    const url : string = process.env.API + "/articles/popular";
-    const articles : Article[] = await fetch(url)
-    .then(( res ) => res.json())
-    .then((result) => Object.values(result));
-
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    const res : ArticlesQuery = await request(process.env.GRAPHQL!, ArticlesDocument);
     return {
-        props: { articles }, // will be passed to the page component as props
+        props: res // will be passed to the page component as props
     };
-}*/
+}

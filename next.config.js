@@ -5,6 +5,7 @@ module.exports = (phase, { defaultConfig }) => {
     return {
       env: {
         API: 'http://localhost:1337',
+        GRAPHQL: 'http://localhost:1337/graphql',
       }
     }
   }
@@ -13,6 +14,7 @@ module.exports = (phase, { defaultConfig }) => {
     /* config options for all phases except development here */
     env: {
       API: 'https://api.improveatinvesting.com',
+      GRAPHQL: 'https://api.improveatinvesting.com/graphql',
     }
   }
 }
