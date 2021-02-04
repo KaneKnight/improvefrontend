@@ -6,8 +6,9 @@ import { Grid, Segment, Header } from "semantic-ui-react";
 import { GetServerSideProps } from 'next'
 //import { Article } from "../types/types"
 import 'semantic-ui-css/semantic.min.css'
-import { Article, ArticlesDocument, ArticlesQuery } from '../generated/graphql';
-
+import { withApollo } from '../withApollo';
+import { ssrArticles, PageArticlesComp } from '../generated/page';
+import { Article } from '../generated/graphql';
 
 /*const displayArticles = ( articles : Article[] ) => {
     return articles.map(
@@ -21,7 +22,7 @@ import { Article, ArticlesDocument, ArticlesQuery } from '../generated/graphql';
     );
 };*/
 
-const Home = ( { articles } : ArticlesQuery ) => {
+const Home : PageArticlesComp = ( { data , error } ) => {
     {/*<div>
         <Navbar page="home" />
         <Segment attached="bottom" textAlign="center" color='blue'>
@@ -33,27 +34,21 @@ const Home = ( { articles } : ArticlesQuery ) => {
             </Grid>
         </Segment>
     </div>*/}
-    
+    if ( error ) {
+        return <p>Error times</p>
+    }
+
     return (
-        <Something articles={articles} />
-    )
+        <>
+           {data!.articles!.map( ( article ) => (
+                <p key={article?.id}>{article?.title}</p>
+            ) )}
+        </>
+    );
 };
 
-const Something = ( { articles } : ArticlesQuery ) => {
-    return (
-        <React.Fragment>
-            {articles!.map( a => {
-                return <p key={a?.id}> {a?.title} </p>;
-            })}
-        </React.Fragment>
-    );
-}
-
-export default Home;
-
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    const res : ArticlesQuery = await request(process.env.GRAPHQL!, ArticlesDocument);
-    return {
-        props: res // will be passed to the page component as props
-    };
+    return await ssrArticles.getServerPage({}, context);
 }
+
+export default withApollo( ssrArticles.withPage( () => ({}) )(Home) );

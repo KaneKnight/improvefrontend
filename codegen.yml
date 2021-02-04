@@ -2,11 +2,32 @@ overwrite: true
 schema: "https://api.improveatinvesting.com/graphql"
 documents: "graphql/**/*.graphql"
 generates:
-  generated/graphql.ts:
+  generated/graphql.tsx:
     plugins:
       - "typescript"
       - "typescript-operations"
-      - "typescript-react-query"
+      - "typescript-react-apollo"
     config:
-      fetcher:
-        endpoint: 'https://api.improveatinvesting.com/graphql'
+          reactApolloVersion: 3
+          withHooks: false
+          withHOC: false
+          withComponent: false
+          exportFragmentSpreadSubTypes: true
+          documentMode: graphQLTag
+  generated/page.tsx:
+    config:
+      documentMode: external
+      importDocumentNodeExternallyFrom: ./graphql
+      reactApolloVersion: 3
+      withHooks: true
+      # withHOC: false
+      # excludePatterns: 'getComments'
+      # excludePatternsOptions: 'i'
+      # customDataIdFromObjectName: 'test'
+      # customDataIdFromObjectImport: 'abc'
+      apolloClientInstanceImport: '../withApollo'
+    preset: import-types
+    presetConfig:
+      typesPath: ./graphql
+    plugins:
+      - graphql-codegen-apollo-next-ssr

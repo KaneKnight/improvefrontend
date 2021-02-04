@@ -1,27 +1,9 @@
-import { useQuery, UseQueryOptions } from 'react-query';
+import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-
-function fetcher<TData, TVariables>(query: string, variables?: TVariables) {
-  return async (): Promise<TData> => {
-    const res = await fetch("https://api.improveatinvesting.com/graphql", {
-      method: "POST",
-      body: JSON.stringify({ query, variables }),
-    });
-    
-    const json = await res.json();
-
-    if (json.errors) {
-      const { message } = json.errors[0];
-
-      throw new Error(message);
-    }
-
-    return json.data;
-  }
-}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -1053,7 +1035,7 @@ export type ArticlesQuery = (
 );
 
 
-export const ArticlesDocument = `
+export const ArticlesDocument = gql`
     query Articles {
   articles {
     id
@@ -1061,15 +1043,4 @@ export const ArticlesDocument = `
   }
 }
     `;
-export const useArticlesQuery = <
-      TData = ArticlesQuery,
-      TError = unknown
-    >(
-      variables?: ArticlesQueryVariables, 
-      options?: UseQueryOptions<ArticlesQuery, TError, TData>
-    ) => 
-    useQuery<ArticlesQuery, TError, TData>(
-      ['Articles', variables],
-      fetcher<ArticlesQuery, ArticlesQueryVariables>(ArticlesDocument, variables),
-      options
-    );
+export type ArticlesQueryResult = Apollo.QueryResult<ArticlesQuery, ArticlesQueryVariables>;
