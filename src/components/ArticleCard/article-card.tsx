@@ -10,7 +10,9 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-import { Article } from '../../generated/graphql';
+import { DeepExtractTypeSkipArrays }from 'ts-deep-extract-types';
+
+import { ArticlesQuery } from '../../generated/graphql';
 
 const useStyles = makeStyles({
 	root: {
@@ -21,14 +23,14 @@ const useStyles = makeStyles({
 	},
 });
 
+type Article = DeepExtractTypeSkipArrays<ArticlesQuery, ["articles"]>;
+
 interface ArticleCardProps {
-	//article : Pick<Article, "author" | "description" | "header_image" | "id" | "title">,
 	article: Article,
 }
 
-export const ArticleCard = ( { article } : any) => {
+export const ArticleCard = ( { article } : ArticleCardProps ) => {
 	const classes = useStyles();
-	
 	return (
 		<Card className={classes.root}>
 			<CardActionArea>
