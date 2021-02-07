@@ -5,13 +5,15 @@ import { GetServerSideProps } from 'next'
 import { withApollo } from '../withApollo';
 import { ssrArticles, PageArticlesComp } from '../generated/page';
 
+import Grid from '@material-ui/core/Grid';
+
 import { ArticleCard } from '../components/ArticleCard/article-card';
 import { Article } from '../types/types';
 
 
 const useStyles = makeStyles( ( theme ) => ( {
-    article: {
-        color: theme.palette.primary.main,
+    container: {
+        margin: theme.spacing( 2 ),
     },
 } ) );
 
@@ -23,12 +25,13 @@ const Home : PageArticlesComp = ( { data , error } ) => {
     }
 
     return (
-        <>
-           {data!.articles!.map( ( article ) => {
-                console.log(article);
-                return <ArticleCard key={article!.id} article={article as Article} />;
-            } )}
-        </>
+        <div className={classes.container} >
+            <Grid container spacing={4}>
+            {data!.articles!.map( ( article ) => (
+                    <ArticleCard key={article!.id} article={article as Article} />
+                ))}
+            </Grid>
+        </div>
     );
 };
 
