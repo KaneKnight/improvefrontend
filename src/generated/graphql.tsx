@@ -82,6 +82,7 @@ export type Article = {
   content: Scalars['String'];
   header_image?: Maybe<UploadFile>;
   author?: Maybe<AdminUser>;
+  description: Scalars['String'];
   published_at?: Maybe<Scalars['DateTime']>;
 };
 
@@ -108,6 +109,7 @@ export type ArticleGroupBy = {
   content?: Maybe<Array<Maybe<ArticleConnectionContent>>>;
   header_image?: Maybe<Array<Maybe<ArticleConnectionHeader_Image>>>;
   author?: Maybe<Array<Maybe<ArticleConnectionAuthor>>>;
+  description?: Maybe<Array<Maybe<ArticleConnectionDescription>>>;
   published_at?: Maybe<Array<Maybe<ArticleConnectionPublished_At>>>;
 };
 
@@ -159,6 +161,12 @@ export type ArticleConnectionAuthor = {
   connection?: Maybe<ArticleConnection>;
 };
 
+export type ArticleConnectionDescription = {
+  __typename?: 'ArticleConnectionDescription';
+  key?: Maybe<Scalars['String']>;
+  connection?: Maybe<ArticleConnection>;
+};
+
 export type ArticleConnectionPublished_At = {
   __typename?: 'ArticleConnectionPublished_at';
   key?: Maybe<Scalars['DateTime']>;
@@ -170,6 +178,7 @@ export type ArticleInput = {
   content: Scalars['String'];
   header_image?: Maybe<Scalars['ID']>;
   author?: Maybe<Scalars['ID']>;
+  description: Scalars['String'];
   published_at?: Maybe<Scalars['DateTime']>;
   created_by?: Maybe<Scalars['ID']>;
   updated_by?: Maybe<Scalars['ID']>;
@@ -180,6 +189,7 @@ export type EditArticleInput = {
   content?: Maybe<Scalars['String']>;
   header_image?: Maybe<Scalars['ID']>;
   author?: Maybe<Scalars['ID']>;
+  description?: Maybe<Scalars['String']>;
   published_at?: Maybe<Scalars['DateTime']>;
   created_by?: Maybe<Scalars['ID']>;
   updated_by?: Maybe<Scalars['ID']>;
@@ -764,7 +774,7 @@ export type DeleteUserPayload = {
   user?: Maybe<UsersPermissionsUser>;
 };
 
-export type Morph = UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsLoginPayload | UserPermissionsPasswordPayload | Article | ArticleConnection | ArticleAggregator | ArticleGroupBy | ArticleConnectionId | ArticleConnection_Id | ArticleConnectionCreatedAt | ArticleConnectionUpdatedAt | ArticleConnectionTitle | ArticleConnectionContent | ArticleConnectionHeader_Image | ArticleConnectionAuthor | ArticleConnectionPublished_At | CreateArticlePayload | UpdateArticlePayload | DeleteArticlePayload | UploadFile | UploadFileConnection | UploadFileAggregator | UploadFileAggregatorSum | UploadFileAggregatorAvg | UploadFileAggregatorMin | UploadFileAggregatorMax | UploadFileGroupBy | UploadFileConnectionId | UploadFileConnection_Id | UploadFileConnectionCreatedAt | UploadFileConnectionUpdatedAt | UploadFileConnectionName | UploadFileConnectionAlternativeText | UploadFileConnectionCaption | UploadFileConnectionWidth | UploadFileConnectionHeight | UploadFileConnectionFormats | UploadFileConnectionHash | UploadFileConnectionExt | UploadFileConnectionMime | UploadFileConnectionSize | UploadFileConnectionUrl | UploadFileConnectionPreviewUrl | UploadFileConnectionProvider | UploadFileConnectionProvider_Metadata | DeleteFilePayload | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsRoleConnection | UsersPermissionsRoleAggregator | UsersPermissionsRoleGroupBy | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnection_Id | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionType | CreateRolePayload | UpdateRolePayload | DeleteRolePayload | UsersPermissionsUser | UsersPermissionsUserConnection | UsersPermissionsUserAggregator | UsersPermissionsUserGroupBy | UsersPermissionsUserConnectionId | UsersPermissionsUserConnection_Id | UsersPermissionsUserConnectionCreatedAt | UsersPermissionsUserConnectionUpdatedAt | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionRole | CreateUserPayload | UpdateUserPayload | DeleteUserPayload;
+export type Morph = UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsLoginPayload | UserPermissionsPasswordPayload | Article | ArticleConnection | ArticleAggregator | ArticleGroupBy | ArticleConnectionId | ArticleConnection_Id | ArticleConnectionCreatedAt | ArticleConnectionUpdatedAt | ArticleConnectionTitle | ArticleConnectionContent | ArticleConnectionHeader_Image | ArticleConnectionAuthor | ArticleConnectionDescription | ArticleConnectionPublished_At | CreateArticlePayload | UpdateArticlePayload | DeleteArticlePayload | UploadFile | UploadFileConnection | UploadFileAggregator | UploadFileAggregatorSum | UploadFileAggregatorAvg | UploadFileAggregatorMin | UploadFileAggregatorMax | UploadFileGroupBy | UploadFileConnectionId | UploadFileConnection_Id | UploadFileConnectionCreatedAt | UploadFileConnectionUpdatedAt | UploadFileConnectionName | UploadFileConnectionAlternativeText | UploadFileConnectionCaption | UploadFileConnectionWidth | UploadFileConnectionHeight | UploadFileConnectionFormats | UploadFileConnectionHash | UploadFileConnectionExt | UploadFileConnectionMime | UploadFileConnectionSize | UploadFileConnectionUrl | UploadFileConnectionPreviewUrl | UploadFileConnectionProvider | UploadFileConnectionProvider_Metadata | DeleteFilePayload | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsRoleConnection | UsersPermissionsRoleAggregator | UsersPermissionsRoleGroupBy | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnection_Id | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionType | CreateRolePayload | UpdateRolePayload | DeleteRolePayload | UsersPermissionsUser | UsersPermissionsUserConnection | UsersPermissionsUserAggregator | UsersPermissionsUserGroupBy | UsersPermissionsUserConnectionId | UsersPermissionsUserConnection_Id | UsersPermissionsUserConnectionCreatedAt | UsersPermissionsUserConnectionUpdatedAt | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionRole | CreateUserPayload | UpdateUserPayload | DeleteUserPayload;
 
 export type InputId = {
   id: Scalars['ID'];
@@ -1030,7 +1040,14 @@ export type ArticlesQuery = (
   { __typename?: 'Query' }
   & { articles?: Maybe<Array<Maybe<(
     { __typename?: 'Article' }
-    & Pick<Article, 'id' | 'title'>
+    & Pick<Article, 'description' | 'id' | 'title'>
+    & { author?: Maybe<(
+      { __typename?: 'AdminUser' }
+      & Pick<AdminUser, 'firstname' | 'lastname'>
+    )>, header_image?: Maybe<(
+      { __typename?: 'UploadFile' }
+      & Pick<UploadFile, 'url'>
+    )> }
   )>>> }
 );
 
@@ -1038,6 +1055,14 @@ export type ArticlesQuery = (
 export const ArticlesDocument = gql`
     query Articles {
   articles {
+    author {
+      firstname
+      lastname
+    }
+    description
+    header_image {
+      url
+    }
     id
     title
   }

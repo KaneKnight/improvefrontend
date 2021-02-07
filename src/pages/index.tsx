@@ -5,6 +5,8 @@ import { GetServerSideProps } from 'next'
 import { withApollo } from '../withApollo';
 import { ssrArticles, PageArticlesComp } from '../generated/page';
 
+import { ArticleCard } from '../components/ArticleCard/article-card';
+
 const useStyles = makeStyles( ( theme ) => ( {
     article: {
         color: theme.palette.primary.main,
@@ -21,7 +23,7 @@ const Home : PageArticlesComp = ( { data , error } ) => {
     return (
         <>
            {data!.articles!.map( ( article ) => (
-                <p className={classes.article} key={article?.id}>{article?.title}</p>
+                <ArticleCard key={article!.id} article={article} />
             ) )}
         </>
     );

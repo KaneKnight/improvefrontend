@@ -1,5 +1,13 @@
 query Articles {
   articles {
+    author {
+      firstname
+      lastname
+    }
+    description
+    header_image {
+      url
+    }
     id
     title
   }

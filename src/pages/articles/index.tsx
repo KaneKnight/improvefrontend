@@ -1,6 +1,6 @@
 import React from "react";
 import { Navbar } from "../../components/Navbar/Navbar"
-import { ArticleCard } from "../../components/ArticleCard/ArticleCard";
+import { ArticleCard } from "../../components/ArticleCard/article-card";
 import { Grid, Segment, Header } from "semantic-ui-react";
 import { GetServerSideProps } from 'next';
 import { Article } from "../../types/types";
