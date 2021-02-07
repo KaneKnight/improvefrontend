@@ -1040,7 +1040,7 @@ export type ArticlesQuery = (
   { __typename?: 'Query' }
   & { articles?: Maybe<Array<Maybe<(
     { __typename?: 'Article' }
-    & Pick<Article, 'description' | 'id' | 'title'>
+    & Pick<Article, 'published_at' | 'description' | 'id' | 'title'>
     & { author?: Maybe<(
       { __typename?: 'AdminUser' }
       & Pick<AdminUser, 'firstname' | 'lastname'>
@@ -1059,6 +1059,7 @@ export const ArticlesDocument = gql`
       firstname
       lastname
     }
+    published_at
     description
     header_image {
       url

@@ -4,6 +4,7 @@ query Articles {
       firstname
       lastname
     }
+    published_at
     description
     header_image {
       url

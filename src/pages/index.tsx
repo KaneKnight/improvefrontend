@@ -7,7 +7,8 @@ import { ssrArticles, PageArticlesComp } from '../generated/page';
 
 import Grid from '@material-ui/core/Grid';
 
-import { ArticleCard } from '../components/ArticleCard/article-card';
+import { ArticleCard } from '../components/article-card/article-card';
+import { NavBar } from '../components/nav-bar/nav-bar';
 import { Article } from '../types/types';
 
 
@@ -25,6 +26,8 @@ const Home : PageArticlesComp = ( { data , error } ) => {
     }
 
     return (
+        <>
+        <NavBar />
         <div className={classes.container} >
             <Grid container spacing={4}>
             {data!.articles!.map( ( article ) => (
@@ -32,6 +35,7 @@ const Home : PageArticlesComp = ( { data , error } ) => {
                 ))}
             </Grid>
         </div>
+        </>
     );
 };
 
