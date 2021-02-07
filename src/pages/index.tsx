@@ -6,6 +6,8 @@ import { withApollo } from '../withApollo';
 import { ssrArticles, PageArticlesComp } from '../generated/page';
 
 import { ArticleCard } from '../components/ArticleCard/article-card';
+import { Article } from '../types/types';
+
 
 const useStyles = makeStyles( ( theme ) => ( {
     article: {
@@ -22,9 +24,10 @@ const Home : PageArticlesComp = ( { data , error } ) => {
 
     return (
         <>
-           {data!.articles!.map( ( article ) => (
-                <ArticleCard key={article!.id} article={article} />
-            ) )}
+           {data!.articles!.map( ( article ) => {
+                console.log(article);
+                return <ArticleCard key={article!.id} article={article as Article} />;
+            } )}
         </>
     );
 };
